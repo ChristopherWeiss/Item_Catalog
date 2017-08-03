@@ -28,6 +28,15 @@ def homepage():
 	all_items = session.query(Item.category).distinct()
 	return render_template('homepage.html', items = all_items)
 
+@app.route('/catalog/<category>/items')
+def displayCategory(category):
+	categoryItems = session.query(Item).filter_by(category = category)
+	return render_template('displayCategory.html', items=categoryItems, category = category)
+@app.route('/catalog/<category>/<itemname>')
+def displayItem(category, itemname):
+	item = session.query(Item).filter_by(category = category).filter_by(name=itemname).one()
+	return render_template('displayItem.html', item = item)
+
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'

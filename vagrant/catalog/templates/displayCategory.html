@@ -4,10 +4,10 @@
 	</head>
 	<body>
 		<h1><a href="{{url_for('homepage')}}">Item Catalog App</a></h1>
-		<h2>Categories</h2>
+		<h2>{{category}}</h2>
 		<div class="container">
 			{% for item in items %}
-			<h3><a href="{{url_for('displayCategory', category = item.category)}}">{{item.category}}</a></h3>
+			<h3><a href="{{url_for('displayItem', category= item.category, itemname = item.name)}}">{{item.name}}</a></h3>
 			{% endfor %}
 		</div>
 	</body>
