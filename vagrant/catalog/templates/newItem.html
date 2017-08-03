@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	</head>
+	<body>
+		<h1><a href="{{url_for('homepage')}}">Item Catalog App</a></h1>
+		<!-- Logic for Login Button -->
+		{% if 'email' in login_session %}
+		<h2><a href="{{url_for('gdisconnect')}}">Logout</a></h2>
+		{% else %}
+		<h2><a href="{{url_for('showLogin')}}">Login</a></h2>
+		{% endif %}
+		<h2> Add New Item </h2>
+		<form action="{{url_for('newItem', category = category)}}" method = 'POST'>
+			<dl>
+				<dt>Item Name:</dt>
+					<dd><input type ='text' size='30' name='name' '></dd>
+				<dt>Description:</dt>
+					<dd><textarea name = 'description' rows='5' cols='40' ></textarea></dd>
+				<dt>Category:</dt>
+					<dd><input type = 'text' size = '8' name='category' value = '{{category}}'></dd>
+			</dl>
+		<input type='submit' value='Submit'>
+		<a href = "{{url_for('displayCategory', category = category)}}"> Cancel </a>
+		</form>
+	</body>
+</html>

@@ -10,11 +10,14 @@
 		{% else %}
 		<h2><a href="{{url_for('showLogin')}}">Login</a></h2>
 		{% endif %}
-		<h2>Categories</h2>
+		<h2>{{item.name}}</h2>
 		<div class="container">
-			{% for item in items %}
-			<h3><a href="{{url_for('displayCategory', category = item.category)}}">{{item.category}}</a></h3>
-			{% endfor %}
+			<p>{{item.description}}</p>
+			<h3>
+				<a href="{{url_for('editItem', category = item.category, itemname = item.name)}}">Edit</a>
+				<a href="{{url_for('deleteItem', category = item.category, itemname = item.name)}}">Delete</a>
+			</h3>
+			<p>Return to <a href="{{url_for('displayCategory', category = item.category)}}">{{item.category}}</a></p>
 		</div>
 	</body>
 </html>

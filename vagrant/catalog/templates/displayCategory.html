@@ -4,6 +4,12 @@
 	</head>
 	<body>
 		<h1><a href="{{url_for('homepage')}}">Item Catalog App</a></h1>
+		<!-- Logic for Login Button -->
+		{% if 'email' in login_session %}
+		<h2><a href="{{url_for('gdisconnect')}}">Logout</a></h2>
+		{% else %}
+		<h2><a href="{{url_for('showLogin')}}">Login</a></h2>
+		{% endif %}
 		<h2>{{category}}</h2>
 		<div class="container">
 			{% for item in items %}
