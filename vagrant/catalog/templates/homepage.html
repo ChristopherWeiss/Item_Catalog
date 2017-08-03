@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	</head>
+	<body>
+		<h1>Item Catalog App </h1>
+		<h2>Categories</h2>
+		<div class="container">
+			{% for item in items %}
+			<h3>{{item.category}}</h3>
+			{% endfor %}
+		</div>
+	</body>
+</html>
