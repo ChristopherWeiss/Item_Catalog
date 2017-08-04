@@ -40,7 +40,7 @@ def displayCategory(category):
 	else:
 		return render_template('privateDisplayCategory.html', items = categoryItems, category = category, login_session = login_session)
 
-@app.route('/catalog/<category>/items.json')
+@app.route('/catalog/<category>.json')
 def displayCategoryJSON(category):
     if 'username' not in login_session:
         return redirect('/login')
@@ -49,11 +49,11 @@ def displayCategoryJSON(category):
 
 @app.route('/catalog/<category>/<itemname>')
 def displayItem(category, itemname):
-	item = session.query(Item).filter_by(category = category).filter_by(name = itemname).one()
-	if 'username' not in login_session:	
-		return render_template('displayItem.html', item = item, login_session = login_session)
-	else:
-		return render_template('privateDisplayItem.html', item = item, login_session = login_session)
+    item = session.query(Item).filter_by(category = category).filter_by(name = itemname).one()
+    if 'username' not in login_session:
+        return render_template('displayItem.html', item = item, login_session = login_session)
+    else:
+        return render_template('privateDisplayItem.html', item = item, login_session = login_session)
 
 @app.route('/catalog/<category>/<itemname>.json')
 def displayItemJSON(category, itemname):
@@ -76,8 +76,16 @@ def newItem(category):
 	
 @app.route('/catalog/<category>/<itemname>/edit', methods = ['GET', 'POST'])
 def editItem(category, itemname):
-	if 'username' not in login_session:
-		return redirect('/login')
+    if 'username' not in login_session:
+        return redirect('/login')
+    item = (session.query(Item).filter_by(category=category)
+            .filter_by(name=itemname).one())
+    creator = getUserInfo(item.user_id)
+    if creator.id != login_session['user_id']:
+        flash("You are not authorized to access edit page")
+        return redirect(url_for('displayItem',
+                                category=category,
+                                itemname=itemname))
 	editedItem = session.query(Item).filter_by(category = category).filter_by(name = itemname).one()
 	if request.method == 'POST':
 		if request.form['name']:
@@ -94,8 +102,16 @@ def editItem(category, itemname):
 
 @app.route('/catalog/<category>/<itemname>/delete', methods = ['GET', 'POST'])
 def deleteItem(category, itemname):
-	if 'username' not in login_session:
-		return redirect('/login')
+    if 'username' not in login_session:
+        return redirect('/login')
+    item = (session.query(Item).filter_by(category=category)
+            .filter_by(name=itemname).one())
+    creator = getUserInfo(item.user_id)
+    if creator.id != login_session['user_id']:
+        flash("You are not authorized to access delete page")
+        return redirect(url_for('displayItem',
+                                category=category,
+                                itemname=itemname))
 	deletedItem = session.query(Item).filter_by(category = category).filter_by(name = itemname).one()
 	if request.method == 'POST':
 		session.delete(deletedItem)
